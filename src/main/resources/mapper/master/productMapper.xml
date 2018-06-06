@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wubo.demo2data.master.Dao.ProductMapper_M">
+    <resultMap id="BaseResultMap" type="com.wubo.demo2data.Entity.Product">
+        <id column="p_id" property="id"></id>
+        <result column="p_name" property="name"></result>
+        <result column="p_price" property="price"></result>
+        <result column="p_cid" property="cid"></result>
+        <association property="user" javaType="com.wubo.demo2data.Entity.User">
+            <result column="u_id" property="id"></result>
+            <result column="u_name" property="name"></result>
+            <result column="u_sex" property="sex"></result>
+        </association>
+    </resultMap>
+    <select id="listProduct" resultMap="BaseResultMap">
+        select p.*,u.*,p.id 'p_id',p.name 'p_name',p.price 'p_price',p.cid 'p_cid',u.id 'u_id',u.name 'u_name',u.sex 'u_sex' from product p left join users u on p.cid = u.id;
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wubo.demo2data.cluster.Dao.userMapper_C">
+    <resultMap id="BaseResultMap" type="com.wubo.demo2data.Entity.User">
+        <result column="id" property="id"></result>
+        <result column="name" property="name"></result>
+        <result column="sex" property="sex"></result>
+    </resultMap>
+    <parameterMap id="User" type="com.wubo.demo2data.Entity.User"></parameterMap>
+    <sql id="Base_Column_List">
+        id,name,sex
+    </sql>
+    <insert id="insertUser" parameterMap="User">
+        insert into user (id,name,sex) values (#{id},#{name},#{sex});
+    </insert>
+    <select id="selectAllUser" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from user where
+        <choose>
+            <when test="name!=null">
+                name like CONCAT('%',#{NAME},'%')
+            </when>
+            <when test="sex!=null">
+                sex like CONCAT('%',#{sex},'%')
+            </when>
+            <otherwise>
+                id = 8
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectUser" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List"></include> from user where id=#{id};
+    </select>
+
+    <update id="updateUser" parameterMap="User">
+        update user set `user`.name=#{name},`user`.sex =#{sex} where id = #{id};
+    </update>
+
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete from user where id = #{id};
+    </delete>
+</mapper>
